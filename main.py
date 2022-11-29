@@ -1,35 +1,54 @@
 import math
+import os
+from re import L
+import time
 
-"""class Courier
-    def __init__(self, x, y):
+OrderList = []
 
-
-class Order
-    def __init__(self, x, y):"""
 
 class Point:
-    def __init__(self,x, y):
-        self.x=x
-        self.y=y
+    def __init__(self):
+        self.x = 0
+        self.y = 0
 
-    def getx(self):
-        return self.x
+    def __repr__(self):
+        return 'Точка доставки с коодинатами {0}, {1}'.format(self.x, self.y)
 
-    def gety(self):
-        return self.y
 
-    def __str__(self):
-        return f"точка с координатами {self.x}, {self.y}"
+class Order:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
 
-    def get_distance(self, other_point):
-        x1=self.x
-        x2=other_point.x
-        y1=self.y
-        y2=other_point.y
-        dist = math.sqrt((x1-x2)**2+(y1-y2)**2)
-        return dist
+    def __repr__(self):
+        return 'Заказ с координатами {0}, {1}'.format(self.x, self.y)
 
-p1=Point(1,2)
-p2=Point(7,2)
-dist=p1.get_distance(p2)
-print(dist)
+
+class Boy:
+    def __init__(self, x, y, speed):
+        self.x = x
+        self.y = y
+        self.speed = speed  # 1 значение в сек
+
+    def walk(self, other_p):
+
+        dist = int(math.sqrt((self.x - other_p.x) ** 2 + (self.y - other_p.y) ** 2))
+        print(f'Курьер c координатами: x, {self.x}, y {self.y}, идёт за заказом: x, {other_p.x} y, {other_p.y}')
+        for i in range(dist):
+            print(f'Прогресс {i + 1}')
+            time.sleep(self.speed)
+
+    def find_nearest_order(self, OrderList):
+        nearest_order = {}
+        for other_p in OrderList:
+            dist = int(math.sqrt((self.x - other_p.x) ** 2 + (self.y - other_p.y) ** 2))
+            nearest_order[other_p.x, other_p.y] = dist
+        point = sorted(nearest_order.items(), key=lambda x: x[-1])[0]
+        print(f'Ближайщий заказ с дистанцией {point[1]} и координатами {point[0]}')
+
+
+for i in range(0, 10):
+    OrderList.append(Order(i, i))
+
+b1 = Boy(4, 1, 1)
+b1.find_nearest_order(OrderList)
