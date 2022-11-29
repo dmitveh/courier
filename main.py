@@ -3,7 +3,7 @@ import os
 from re import L
 import time
 
-OrderList = [{"x": 10, "y": 10}]
+OrderList = [{"x": 1, "y": 1},{"x": 15, "y": 15},{"x": 8, "y": 8}]
 
 
 class Point:
@@ -45,11 +45,12 @@ class Boy:
             nearest_order[other_p['x'], other_p['y']] = dist
         point = sorted(nearest_order.items(), key=lambda x: x[-1])[0]
         print(f'Ближайщий заказ с дистанцией {point[1]} и координатами {point[0]}')
+        return {'y': point[0][1], 'x': point[0][0]}
 
 
 ##for i in range(0, 10):
   ##  OrderList.append({'x': Order(i, i).x, "y": Order(i, i).y})
 
-b1 = Boy(4, 4, 1)
+b1 = Boy(10, 10, 0.5)
 b1.find_nearest_order(OrderList)
-b1.walk(OrderList[0])
+b1.walk(b1.find_nearest_order(OrderList))
