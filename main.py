@@ -3,7 +3,7 @@ import os
 from re import L
 import time
 
-OrderList = []
+OrderList = [{"x": 10, "y": 10}]
 
 
 class Point:
@@ -32,8 +32,8 @@ class Boy:
 
     def walk(self, other_p):
 
-        dist = int(math.sqrt((self.x - other_p.x) ** 2 + (self.y - other_p.y) ** 2))
-        print(f'Курьер c координатами: x, {self.x}, y {self.y}, идёт за заказом: x, {other_p.x} y, {other_p.y}')
+        dist = int(math.sqrt((self.x - other_p['x']) ** 2 + (self.y - other_p['y']) ** 2))
+        print(f'Курьер c координатами: x, {self.x}, y {self.y}, идёт за заказом: x, ', {other_p["x"]}, 'y, ', {other_p["y"]})
         for i in range(dist):
             print(f'Прогресс {i + 1}')
             time.sleep(self.speed)
@@ -41,14 +41,15 @@ class Boy:
     def find_nearest_order(self, OrderList):
         nearest_order = {}
         for other_p in OrderList:
-            dist = int(math.sqrt((self.x - other_p.x) ** 2 + (self.y - other_p.y) ** 2))
-            nearest_order[other_p.x, other_p.y] = dist
+            dist = int(math.sqrt((self.x - other_p["x"]) ** 2 + (self.y - other_p["y"]) ** 2))
+            nearest_order[other_p['x'], other_p['y']] = dist
         point = sorted(nearest_order.items(), key=lambda x: x[-1])[0]
         print(f'Ближайщий заказ с дистанцией {point[1]} и координатами {point[0]}')
 
 
-for i in range(0, 10):
-    OrderList.append(Order(i, i))
+##for i in range(0, 10):
+  ##  OrderList.append({'x': Order(i, i).x, "y": Order(i, i).y})
 
-b1 = Boy(4, 1, 1)
+b1 = Boy(4, 4, 1)
 b1.find_nearest_order(OrderList)
+b1.walk(OrderList[0])
